@@ -20,8 +20,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isFormValid = false; // Track form validation status
-  int _userIdCounter = 1; // Initial user ID
-
+  bool _showPassword=false;
 
   String? _validatePhoneNumber(String? value) {
     // Check if the phone number is empty
@@ -43,7 +42,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return 'Please enter a valid email address';
     }
     return null; // Return null if the email is valid
-  }  String? _validatePassword(String? value) {
+  }  
+  String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter a password';
     }
@@ -168,7 +168,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     TextFormField(
                       controller: passwordController,
-                      decoration: const InputDecoration(
+                      obscureText: _showPassword?false:true,
+                      decoration:  InputDecoration(
+                        suffixIcon:   IconButton(onPressed: (){
+                          setState(() {
+                            _showPassword=!_showPassword;
+
+                          });
+                        },
+                            icon: _showPassword? Icon(Icons.visibility_off):Icon(Icons.visibility)),
                         hintText: "Create Password",
                         hintStyle: TextStyle(
                           color: Colors.grey,
@@ -260,7 +268,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         // Navigate to next screen
         Navigator.pushNamed(context, '/loginScreen');
         // Increment user ID for next registration
-        _userIdCounter++;
 
       } else {
         // Handle errors
