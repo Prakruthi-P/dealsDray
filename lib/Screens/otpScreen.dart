@@ -65,7 +65,7 @@ class _OTPScreenState extends State<OTPScreen> {
         _verifyOTP(enteredOTP);
         if (enteredOTP == "1234"||enteredOTP=="9879") {
           // Correct OTP, navigate to dashboard
-          Navigator.pushReplacementNamed(context, '/dashboardScreen');
+          Navigator.pushReplacementNamed(context, '/bottomNavigationScreen');
         } else {
           // Incorrect OTP, you can show an error message or perform any other action
           // showToast(message: "Incorrect OTP");
@@ -128,72 +128,74 @@ class _OTPScreenState extends State<OTPScreen> {
           color: Colors.black,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset("assets/images/phone.png"),
-            SizedBox(height: 10),
-            Text(
-              "OTP Verification",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-                color: Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset("assets/images/phone.png"),
+              SizedBox(height: 10),
+              Text(
+                "OTP Verification",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            Text(
-              "We have sent a unique OTP number to your mobile ${widget.phoneNumber}",
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(4,
-                    (index) => SizedBox(
-                      width: MediaQuery.of(context).size.width*0.2,
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: TextFormField(
-                          controller: controllers[index],
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+              Text(
+                "We have sent a unique OTP number to your mobile ${widget.phoneNumber}",
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(4,
+                      (index) => SizedBox(
+                        width: MediaQuery.of(context).size.width*0.2,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: TextFormField(
+                            controller: controllers[index],
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (value) => _onInputChanged(index, value),
+                            maxLength: 1,
                           ),
-                          onChanged: (value) => _onInputChanged(index, value),
-                          maxLength: 1,
                         ),
                       ),
-                    ),
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-              timerText,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ),
-                TextButton(
-                  onPressed: _start == 0 ? () {} : null,
-                  child: Text(
-                    "SEND AGAIN" ,
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                timerText,
                     style: TextStyle(
-                      color: _start == 0 ? Colors.black : Colors.grey[300],
-                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                       fontSize: 20,
-                      decoration: TextDecoration.underline
                     ),
                   ),
-                ),
-
-              ],
-            )
-          ],
+                  TextButton(
+                    onPressed: _start == 0 ? () {} : null,
+                    child: Text(
+                      "SEND AGAIN" ,
+                      style: TextStyle(
+                        color: _start == 0 ? Colors.black : Colors.grey[300],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        decoration: TextDecoration.underline
+                      ),
+                    ),
+                  ),
+        
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

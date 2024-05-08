@@ -1,3 +1,4 @@
+import 'package:dealsdray/Screens/botttomNavigationBar.dart';
 import 'package:dealsdray/Screens/dashboardScreen.dart';
 import 'package:dealsdray/Screens/loginScreen.dart';
 import 'package:dealsdray/Screens/RegistrationScreen.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes:{
         "/loginScreen":(context)=>LoginScreen(),
         "/dashboardScreen":(context)=>DashBoardScreen(),
-        "/registrationScreen":(context)=>RegistrationScreen()
+        "/registrationScreen":(context)=>RegistrationScreen(),
+        "/bottomNavigationScreen":(context)=>BottomNavigation()
     },
       home: const SplashScreen(child: LoginScreen(),),
     );

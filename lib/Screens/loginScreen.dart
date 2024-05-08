@@ -45,155 +45,160 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ),
       body: Center(
-        child: Container(
-          width: MediaQuery.sizeOf(context).width * .5,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Opacity(
-                opacity: 0.5,
-                child: Image.asset(
-                  "assets/images/dealsdray_logo.jpeg",
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isPhoneSelected = true;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _isPhoneSelected ? Colors.red : Colors.grey[300],
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          bottomLeft: Radius.circular(30),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                      child: Text(
-                        'Phone',
-                        style: TextStyle(
-                          color: _isPhoneSelected ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+        child: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.sizeOf(context).width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Opacity(
+                  opacity: 0.5,
+                  child: Image.asset(
+                    "assets/images/dealsdray_logo.jpeg",
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isPhoneSelected = false;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: !_isPhoneSelected ? Colors.red : Colors.grey[300],
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                      child: Text(
-                        'Email',
-                        style: TextStyle(
-                          color: !_isPhoneSelected ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Text(
-                "Glad to see you !",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
                 ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                "Please provide your phone number ",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: 10),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: phoneNumberController,
-                      decoration: const InputDecoration(
-                        hintText: "Phone",
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Allow only numbers
-                      ],
-                      keyboardType: TextInputType.number,
-                      validator: _validatePhoneNumber,
-                      onChanged: (value) {
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
                         setState(() {
-                          // Set the form validation status
-                          _isFormValid = _formKey.currentState!.validate();
+                          _isPhoneSelected = true;
                         });
                       },
-                    ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                          child: Text(
-                            "SEND CODE",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(20),
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5), // Set the border radius here
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _isPhoneSelected ? Colors.red : Colors.grey[300],
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            bottomLeft: Radius.circular(30),
                           ),
                         ),
-                        onPressed: _isFormValid ? () {
-                          // Form is valid, handle submission here
-                          final String mobileNumber = phoneNumberController.text;
-                          mobileNumber == "9011470243" ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  OTPScreen(
-                                    phoneNumber: mobileNumber,
-                                  ),
-                            ),): Navigator.pushNamed(context,"/registrationScreen"); // Disable button if form is not valid
-                        }:null,
-
+                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        child: Text(
+                          'Phone',
+                          style: TextStyle(
+                            color: _isPhoneSelected ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                ]
-              )
-              ),
-
-            ],
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isPhoneSelected = false;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: !_isPhoneSelected ? Colors.red : Colors.grey[300],
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        child: Text(
+                          'Email',
+                          style: TextStyle(
+                            color: !_isPhoneSelected ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Glad to see you !",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Please provide your phone number ",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width:MediaQuery.of(context).size.width*0.7,
+                        child: TextFormField(
+                          controller: phoneNumberController,
+                          decoration: const InputDecoration(
+                            hintText: "Phone",
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')), // Allow only numbers
+                          ],
+                          keyboardType: TextInputType.number,
+                          validator: _validatePhoneNumber,
+                          onChanged: (value) {
+                            setState(() {
+                              // Set the form validation status
+                              _isFormValid = _formKey.currentState!.validate();
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width *0.7,
+                        child: ElevatedButton(
+                            child: Text(
+                              "SEND CODE",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.all(20),
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5), // Set the border radius here
+                            ),
+                          ),
+                          onPressed: _isFormValid ? () {
+                            // Form is valid, handle submission here
+                            final String mobileNumber = phoneNumberController.text;
+                            mobileNumber == "9011470243" ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    OTPScreen(
+                                      phoneNumber: mobileNumber,
+                                    ),
+                              ),): Navigator.pushNamed(context,"/registrationScreen"); // Disable button if form is not valid
+                          }:null,
+          
+                        ),
+                      ),
+                  ]
+                )
+                ),
+          
+              ],
+            ),
           ),
         ),
 
