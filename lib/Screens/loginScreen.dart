@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:dealsdray/Constants/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +22,62 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isPhoneSelected = true;
   bool _isFormValid = false; // Track form validation status
+  bool _isDataValid=false;
 
+  Future<bool> fetchData(String mobile) async {
+    // Create a proxy client
+    try {
+      // Make HTTP GET request using the proxy client
+      final response = await http.post(Uri.parse("http://devapiv3.dealsdray.com/api/v2/user/otp"));
+
+      if (response.statusCode == 200) {
+        print("success");
+        // Decode response JSON
+        List<dynamic> jsonData = json.decode(response.body);
+        // Process data
+        List<dynamic> formattedData = jsonData.map((data) {
+          return {
+            "mobileNumber": data['mobileNumber'],
+          };
+        }).toList();
+        print("formatted Data:$formattedData");
+
+        if (formattedData.isNotEmpty && formattedData[0]["mobileNumber"]==mobile) {
+          setState(() {
+            _isFormValid=true;
+          });
+          showToast(message: "Thanks");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  OTPScreen(
+                    phoneNumber: mobile,
+                  ),
+            ),
+          );// Disable button if form is not valid
+
+          return true; // Return true if data is fetched successfully and not empty
+        } else {
+          setState(() {
+            _isDataValid = false;
+
+          });
+          showToast(message: "Please register");
+          Navigator.pushNamed(context,"/registrationScreen");
+          // showToast(message: "No data found");
+          return false; // Return false if data is empty
+        }
+      } else {
+        showToast(message: "Please enter correct credential");
+        return false; // Return false for non-200 status code
+      }
+    } catch (e) {
+      print(e);
+      showToast(message: "execption");
+      return false; // Return false for any exceptions
+    }
+  }
   String? _validatePhoneNumber(String? value) {
     // Check if the phone number is empty
     if (value == null || value.isEmpty) {
@@ -181,6 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: _isFormValid ? () {
                             // Form is valid, handle submission here
                             final String mobileNumber = phoneNumberController.text;
+                           //fetchData(mobileNumber);
                             mobileNumber == "9011470243" ? Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -189,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       phoneNumber: mobileNumber,
                                     ),
                               ),): Navigator.pushNamed(context,"/registrationScreen"); // Disable button if form is not valid
-                          }:null,
+                           }:null,
           
                         ),
                       ),
